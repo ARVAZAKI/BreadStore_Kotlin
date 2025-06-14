@@ -30,13 +30,18 @@ class MainActivity : ComponentActivity() {
 fun BakeryApp() {
     var currentScreen by remember { mutableStateOf("login") }
     var isLoggedIn by remember { mutableStateOf(false) }
+    var userType by remember { mutableStateOf("") } // "admin" atau "user"
 
     when {
         !isLoggedIn && currentScreen == "login" -> {
             LoginScreen(
-                onLoginClick = {
-                    isLoggedIn = true
-                    currentScreen = "home"
+                onLoginClick = { email, password ->
+                    val loginResult = validateLogin(email, password)
+                    if (loginResult.isNotEmpty()) {
+                        isLoggedIn = true
+                        userType = loginResult
+                        currentScreen = if (loginResult == "admin") "dashboard_admin" else "home"
+                    }
                 },
                 onRegisterClick = {
                     currentScreen = "register"
@@ -47,6 +52,7 @@ fun BakeryApp() {
             RegisterScreen(
                 onRegisterClick = {
                     isLoggedIn = true
+                    userType = "user"
                     currentScreen = "home"
                 },
                 onBackToLogin = {
@@ -54,11 +60,21 @@ fun BakeryApp() {
                 }
             )
         }
-        isLoggedIn && currentScreen == "home" -> {
+        isLoggedIn && currentScreen == "dashboard_admin" && userType == "admin" -> {
+            DashboardAdminScreen(
+                onLogout = {
+                    isLoggedIn = false
+                    userType = ""
+                    currentScreen = "login"
+                }
+            )
+        }
+        isLoggedIn && currentScreen == "home" && userType == "user" -> {
             BreadListScreen(
                 onNavigateToCart = {
                     currentScreen = "cart"
-                }
+                },
+
             )
         }
         isLoggedIn && currentScreen == "cart" -> {
@@ -72,5 +88,14 @@ fun BakeryApp() {
                 }
             )
         }
+    }
+}
+
+// Fungsi untuk validasi login
+fun validateLogin(email: String, password: String): String {
+    return when {
+        email == "admin@admin.com" && password == "admin123" -> "admin"
+        email == "user@gmail.com" && password == "12345678" -> "user"
+        else -> "" // Login gagal
     }
 }

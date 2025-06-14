@@ -57,7 +57,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.foundation:foundation")
@@ -69,6 +68,12 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("androidx.compose.ui:ui-util")
+
+    // OkHttp untuk HTTP requests
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Coroutines untuk async operations
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Testing dependencies
     testImplementation("junit:junit:4.13.2")

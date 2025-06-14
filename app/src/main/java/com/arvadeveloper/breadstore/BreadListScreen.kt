@@ -349,59 +349,58 @@ fun PopularBreadCard(
                     color = Color(0xFF4CAF50),
                     fontWeight = FontWeight.Medium
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Quantity selector
-                IconButton(
-                    onClick = { if (quantity > 1) quantity-- },
-                    modifier = Modifier.size(24.dp)
+            } else {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "Kurangi",
-                        modifier = Modifier.size(16.dp)
+                    // Quantity selector
+                    IconButton(
+                        onClick = { if (quantity > 1) quantity-- },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Kurangi",
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+
+                    Text(
+                        text = quantity.toString(),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
                     )
+
+                    IconButton(
+                        onClick = { quantity++ },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = "Tambah",
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
                 }
 
-                Text(
-                    text = quantity.toString(),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
-                )
-
-                IconButton(
-                    onClick = { quantity++ },
-                    modifier = Modifier.size(24.dp)
+                // Add to Cart Button
+                Button(
+                    onClick = { onAddToCart(quantity) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(32.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFF8A65)
+                    ),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = "Tambah",
-                        modifier = Modifier.size(16.dp)
+                    Text(
+                        text = "Tambah",
+                        fontSize = 12.sp,
+                        color = Color.White
                     )
                 }
-            }
-
-            // Add to Cart Button
-            Button(
-                onClick = { onAddToCart(quantity) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(32.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFF8A65)
-                ),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = "Tambah",
-                    fontSize = 12.sp,
-                    color = Color.White
-                )
             }
         }
     }
@@ -506,98 +505,73 @@ fun BreadCard(
 
                     // Cart status
                     if (isInCart) {
-                        Text(
-                            text = "Sudah di keranjang ($cartQuantity)",
-                            fontSize = 10.sp,
-                            color = Color(0xFF4CAF50),
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                }
-
-                // Bottom Row (Price, Rating, and Add to Cart)
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = bread.price,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFFF8A65)
-                        )
-
+                        // Hanya tampilkan status sudah di keranjang
+                        Column(
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Text(
+                                text = "✓ Di Keranjang",
+                                fontSize = 10.sp,
+                                color = Color(0xFF4CAF50),
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "Qty: $cartQuantity",
+                                fontSize = 10.sp,
+                                color = Color(0xFF4CAF50)
+                            )
+                        }
+                    } else {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            Icon(
-                                Icons.Default.Star,
-                                contentDescription = null,
-                                tint = Color(0xFFFFD700),
-                                modifier = Modifier.size(14.dp)
-                            )
+                            // Quantity selector
+                            IconButton(
+                                onClick = { if (quantity > 1) quantity-- },
+                                modifier = Modifier.size(24.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = "Kurangi",
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
+
                             Text(
-                                text = bread.rating.toString(),
-                                fontSize = 12.sp,
-                                color = Color(0xFF8D6E63),
-                                modifier = Modifier.padding(start = 4.dp)
+                                text = quantity.toString(),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.padding(horizontal = 4.dp)
                             )
-                        }
-                    }
 
-                    // Quantity and Add to Cart
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        // Quantity selector
-                        IconButton(
-                            onClick = { if (quantity > 1) quantity-- },
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = "Kurangi",
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
+                            IconButton(
+                                onClick = { quantity++ },
+                                modifier = Modifier.size(24.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.Add,
+                                    contentDescription = "Tambah",
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
 
-                        Text(
-                            text = quantity.toString(),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier.padding(horizontal = 4.dp)
-                        )
-
-                        IconButton(
-                            onClick = { quantity++ },
-                            modifier = Modifier.size(24.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.Add,
-                                contentDescription = "Tambah",
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
-
-                        // Add to Cart Button
-                        Button(
-                            onClick = { onAddToCart(quantity) },
-                            modifier = Modifier.height(32.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFFFF8A65)
-                            ),
-                            shape = RoundedCornerShape(8.dp),
-                            contentPadding = PaddingValues(horizontal = 12.dp)
-                        ) {
-                            Text(
-                                text = "Tambah",
-                                fontSize = 12.sp,
-                                color = Color.White
-                            )
+                            // Add to Cart Button
+                            Button(
+                                onClick = { onAddToCart(quantity) },
+                                modifier = Modifier.height(32.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color(0xFFFF8A65)
+                                ),
+                                shape = RoundedCornerShape(8.dp),
+                                contentPadding = PaddingValues(horizontal = 12.dp)
+                            ) {
+                                Text(
+                                    text = "Tambah",
+                                    fontSize = 12.sp,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
